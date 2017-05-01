@@ -167,7 +167,7 @@ class DylanGridView: ImageView {
             for(col in 0..mHeatmap[row].size - 1) {
                 if(mHeatmap[row][col] == 0f) continue
 //                if(row == 10 && col == 10) Log.d("DYLAN", mHeatmap[row][col].toString())
-                mPaint.color = getColorOfDegradate(START_HEAT_COL, END_HEAT_COL, mHeatmap[row][col]/100f)
+                mPaint.color = getColorInGradient(START_HEAT_COL, END_HEAT_COL, mHeatmap[row][col]/100f)
                 var xPosPix: Float = (row * mGridGap).toFloat()
                 var yPosPix: Float = (col * mGridGap).toFloat()
                 canvas.drawRect(
@@ -181,6 +181,11 @@ class DylanGridView: ImageView {
         }
     }
 
+    /**
+     * This would be called on starting up the app. The positions should be able to be
+     * entered on a different screen, but for the purpose of this project, they're hard-coded
+     * in TestActivity.kt
+     */
     fun setBeaconPositions(beaconPositions: List<Coord>){
         mBeaconPositions = beaconPositions
         mDoAfterInitialised = mDoAfterInitialised.plus(object: Consumer<Void> {
@@ -194,6 +199,14 @@ class DylanGridView: ImageView {
         invalidate()
     }
 
+    /**
+     * This would be replaced with something more like... setPlayerPos(coord: Coord)
+     * since in the future, this would be driven by multiple beacon signals, rather than
+     * button clicks.
+     * Every time the app received signals from beacons, the position of the person
+     * would need to be calculated, then passed in to here so that the movement could
+     * be graphically represented.
+     */
     fun movePlayer(dir: DIR){
 
         heatmapPosition()
@@ -212,7 +225,7 @@ class DylanGridView: ImageView {
         LEFT, RIGHT, UP, DOWN
     }
 
-    private fun getColorOfDegradate(colorStart: Int, colorEnd: Int, percent: Float): Int {
+    private fun getColorInGradient(colorStart: Int, colorEnd: Int, percent: Float): Int {
         return ArgbEvaluator().evaluate(percent, colorStart, colorEnd) as Int
     }
 
