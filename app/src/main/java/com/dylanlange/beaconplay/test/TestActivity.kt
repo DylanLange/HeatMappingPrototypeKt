@@ -56,22 +56,18 @@ class TestActivity: AppCompatActivity() {
 
     private fun setupBtnListeners() {
         btn_down.setOnClickListener({
-            v ->
             mPos.y += 0.2
             iv_canvas.movePlayer(DylanGridView.DIR.DOWN)
         })
         btn_up.setOnClickListener({
-            v ->
             mPos.y -= 0.2
             iv_canvas.movePlayer(DylanGridView.DIR.UP)
         })
         btn_left.setOnClickListener({
-            v ->
             mPos.x -= 0.2
             iv_canvas.movePlayer(DylanGridView.DIR.LEFT)
         })
         btn_right.setOnClickListener({
-            v ->
             mPos.x += 0.2
             iv_canvas.movePlayer(DylanGridView.DIR.RIGHT)
         })
