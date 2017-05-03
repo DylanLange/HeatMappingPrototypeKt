@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import com.dylanlange.beaconplay.toTwoDp
 import io.reactivex.functions.Consumer
+import java.util.*
 
 /**
  * Created by dylanlange on 1/05/17.
@@ -149,7 +150,7 @@ class DylanGridView: ImageView {
         return Math.sqrt((dx * dx) + (dy * dy))//pythag
     }
 
-    private fun heatmapPosition() {
+    public fun heatmapPosition() {
         var heatVal = mHeatmap[
                 (mPlayerPos.x / mGridGap).toInt()
                 ][

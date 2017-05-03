@@ -1,6 +1,7 @@
 package com.dylanlange.beaconplay.test
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import com.dylanlange.beaconplay.R
 import kotlinx.android.synthetic.main.activity_test.*
@@ -23,7 +24,19 @@ class TestActivity: AppCompatActivity() {
     private val METER_HEIGHT: Int = 20
 
     lateinit private var mPos: Coord
-    lateinit private var mBeacons: List<Coord>
+
+    var mHeatmapTickHandler: Handler = Handler()
+    var mTickHeatTask: Runnable = Runnable {
+        iv_canvas.heatmapPosition()
+        doHeatmapTick()
+    }
+
+    /**
+     * Does this count as recursive? Or is it just an infinite cycle
+     */
+    private fun doHeatmapTick() {
+        mHeatmapTickHandler.postDelayed(mTickHeatTask, 1000)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,21 +44,11 @@ class TestActivity: AppCompatActivity() {
 
         mPos = Coord(METER_WIDTH/2.0, METER_HEIGHT/2.0)
 
-        //getScreenSize()
         setupCanvas()
         setupBtnListeners()
         setupBeaconPositions()
+        doHeatmapTick()
     }
-
-    /*private fun getScreenSize() {
-        val display: Display = windowManager.defaultDisplay
-        val size: Point = Point()
-        display.getSize(size)
-        mScreenWidth = size.x
-        mScreenHeight = size.y
-
-        mCanvasHeight = iv_canvas.height
-    }*/
 
     private fun setupCanvas() {
         iv_canvas.setup(METER_WIDTH, METER_HEIGHT)
